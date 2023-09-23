@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Java_OOP_Homeworks/HW.iml" filepath="$PROJECT_DIR$/Java_OOP_Homeworks/HW.iml" />
       <module fileurl="file://$PROJECT_DIR$/Java_OOP.iml" filepath="$PROJECT_DIR$/Java_OOP.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Seminar_1/Seminar_1.iml" filepath="$PROJECT_DIR$/Seminar_1/Seminar_1.iml" />
     </modules>
   </component>
 </project>

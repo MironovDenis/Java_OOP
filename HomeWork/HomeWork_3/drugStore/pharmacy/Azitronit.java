@@ -6,7 +6,7 @@ public class Azitronit extends Component{
     }
 
     public Azitronit(String weight) {
-        this("Азитронит", 5, weight);
+        this("Азитронит", 10, weight);
     }
 
 

@@ -27,6 +27,8 @@ public class Pharmacy implements Iterable<Component>, Comparable<Pharmacy> {
         return count;
     }
 
+
+
 //    int count = components.stream().mapToInt(Component::getPower).sum();
 
 //    @Override
@@ -43,7 +45,7 @@ public class Pharmacy implements Iterable<Component>, Comparable<Pharmacy> {
     public String toString() {
         return "Pharmacy{" +
                 "components=" + components +
-                ", index=" + index +
+                ", index=" +
                 '}';
     }
 
@@ -70,14 +72,18 @@ public class Pharmacy implements Iterable<Component>, Comparable<Pharmacy> {
     @Override
     public int compareTo(Pharmacy o) {
         int pharmPower = getPharmPower();
-        if (this.getPharmPower()>o.getPharmPower()){
-            return 1;
-        }
-        if (this.getPharmPower()<o.getPharmPower()){
-            return -1;
+        if  (this.getPharmPower() != o.getPharmPower()){
+            return Integer.compare(this.getPharmPower(), o.getPharmPower());
+//        if (this.getPharmPower()>o.getPharmPower()){
+//            return 1;
+//        }
+//        if (this.getPharmPower()<o.getPharmPower()){
+//            return -1;
         }
         return 0;
     }
+
+
 
 
 

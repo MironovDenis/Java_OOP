@@ -11,7 +11,6 @@ public class Main {
         System.out.println(gbLinkedList.size());
         gbLinkedList.addLast("Fish");
         System.out.println(gbLinkedList);
-        gbLinkedList.addFirst("Bird");
         System.out.println(gbLinkedList);
     }
 }

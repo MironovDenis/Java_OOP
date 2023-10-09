@@ -37,12 +37,11 @@ public class UserController {
         return repository.findAll();
     }
 
-    public void deleteUser(String Id) {
-        boolean isDelete = repository.delete(Long.parseLong(Id));
-        if (isDelete) {
-            System.out.println("User delete");
-        } else {
-            System.out.println("User not found");
-        }
+    public boolean deleteUser(String uId) {
+        repository.delete(Long.parseLong(uId));
+        return false;
+    }
+    public User createUser(List<String> dataUser) {
+        return repository.createNewUser(dataUser);
     }
 }

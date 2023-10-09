@@ -1,26 +1,39 @@
 package model.repository.impl;
 
-import model.dao.impl.FileOperation;
 import util.mapper.impl.UserMapper;
 import model.User;
 import model.repository.GBRepository;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class UserRepository implements GBRepository {
     private final UserMapper mapper;
-    private final FileOperation operation;
+    private final String fileName;
+    private final String fileNameId;
 
-    public UserRepository(FileOperation operation) {
+    public UserRepository(String fileName, String fileNameId) {
+        this.fileName = fileName;
+        this.fileNameId = fileNameId;
         this.mapper = new UserMapper();
-        this.operation = operation;
+        try (FileWriter writer = new FileWriter(fileName, true)) {
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        //this.operation = operation;
+    }
+
+    @Override
+    public User createNewUser(List<String> dataUser) {
+        return new User(dataUser.get(0), dataUser.get(1), dataUser.get(2));
     }
 
     @Override
     public List<User> findAll() {
-        List<String> lines = operation.readAll();
+        List<String> lines = readAll();
         List<User> users = new ArrayList<>();
         for (String line : lines) {
             users.add(mapper.toOutput(line));
@@ -29,20 +42,65 @@ public class UserRepository implements GBRepository {
     }
 
     @Override
-    public User create(User user) {
-        List<User> users = findAll();
-        long max = 0L;
-        for (User u : users) {
-            long id = u.getId();
-            if (max < id) {
-                max = id;
+    public List<String> readAll() {
+        List<String> lines = new ArrayList<>();
+        try {
+            File file = new File(fileName);
+            //создаем объект FileReader для объекта File
+            FileReader fr = new FileReader(file);
+            //создаем BufferedReader с существующего FileReader для построчного считывания
+            BufferedReader reader = new BufferedReader(fr);
+            // считаем сначала первую строку
+            String line = reader.readLine();
+            if (line != null) {
+                lines.add(line);
             }
+            while (line != null) {
+                // считываем остальные строки в цикле
+                line = reader.readLine();
+                if (line != null) {
+                    lines.add(line);
+                }
+            }
+            fr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        long next = max + 1;
+        return lines;
+    }
+
+    @Override
+    public void saveAll(List<String> data) {
+        try (FileWriter writer = new FileWriter(fileName, false)) {
+            for (String line : data) {
+                // запись всей строки
+                writer.write(line);
+                // запись по символам
+                writer.append('\n');
+            }
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public void create(User user) {
+        if (user.getFirstName().isEmpty() || user.getLastName().isEmpty() || user.getPhone().isEmpty()) {
+            throw new RuntimeException("Поля ИМЯ, ФАМИИЛИЯ или ТЕЛЕФОН не могут быть пустыми");
+        }
+        List<User> users = findAll();
+//        long max = 0L;
+//        for (User u : users) {
+//            long id = u.getId();
+//            if (max < id) {
+//                max = id;
+//            }
+//        }
+        long next = getNewId();
         user.setId(next);
         users.add(user);
         write(users);
-        return user;
     }
 
     @Override
@@ -52,9 +110,6 @@ public class UserRepository implements GBRepository {
 
     @Override
     public Optional<User> update(Long userId, User update) {
-        if (userId == null) {
-            throw new RuntimeException("id cannot be empty");
-        }
         List<User> users = findAll();
         User editUser = users.stream()
                 .filter(u -> u.getId()
@@ -76,9 +131,6 @@ public class UserRepository implements GBRepository {
 
     @Override
     public boolean delete(Long id) {
-        if (id == null) {
-            throw new RuntimeException("id cannot be empty");
-        }
         List<User> users = findAll();
         List<User> tempUsers = new ArrayList<>();
         for (User user : users) {
@@ -99,7 +151,37 @@ public class UserRepository implements GBRepository {
         for (User u : users) {
             lines.add(mapper.toInput(u));
         }
-        operation.saveAll(lines);
+        saveAll(lines);
+    }
+
+    private void saveId(long id) {
+        try (FileWriter writer = new FileWriter(fileNameId, false)) {
+            writer.write(Long.toString(id));
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    private long readId() {
+        long lastId = 0;
+        try {
+            File file = new File(fileNameId);
+            FileReader fr = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fr);
+            String lastIdStr = reader.readLine();
+            if (lastIdStr != null) {
+                lastId = Long.parseLong(lastIdStr);
+            }
+            fr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lastId;
+    }
+    private long getNewId() {
+        long id = readId() + 1;
+        saveId(id);
+        return id;
     }
 
 }

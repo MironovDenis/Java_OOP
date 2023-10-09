@@ -1,5 +1,9 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class User {
     private Long id;
     private String firstName;
@@ -15,6 +19,24 @@ public class User {
     public User(Long id, String firstName, String lastName, String phone) {
         this(firstName, lastName, phone);
         this.id = id;
+    }
+
+    public static List<String> getDataUser() {
+        List<String> dataUser = new ArrayList<>();
+        String firstName = prompt("Имя: ").replaceAll(" ", "");
+        dataUser.add(firstName);
+        String lastName = prompt("Фамилия: ").replaceAll(" ", "");
+        dataUser.add(lastName);
+        String phone = prompt("Номер телефона: ");
+        dataUser.add(phone);
+
+        return dataUser;
+    }
+
+    private static String prompt(String message) {
+        Scanner in = new Scanner(System.in);
+        System.out.print(message);
+        return in.nextLine();
     }
 
     public Long getId() {

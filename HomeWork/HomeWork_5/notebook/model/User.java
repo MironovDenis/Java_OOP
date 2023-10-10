@@ -23,17 +23,17 @@ public class User {
 
     public static List<String> getDataUser() {
         List<String> dataUser = new ArrayList<>();
-        String firstName = prompt("Имя: ").replaceAll(" ", "");
+        String firstName = prompt("Name: ").replaceAll(" ", "");
         dataUser.add(firstName);
-        String lastName = prompt("Фамилия: ").replaceAll(" ", "");
+        String lastName = prompt("Surname: ").replaceAll(" ", "");
         dataUser.add(lastName);
-        String phone = prompt("Номер телефона: ");
+        String phone = prompt("Phone number: ").replaceAll(" ", "");
         dataUser.add(phone);
 
         return dataUser;
     }
 
-    private static String prompt(String message) {
+    public static String prompt(String message) {
         Scanner in = new Scanner(System.in);
         System.out.print(message);
         return in.nextLine();
@@ -73,6 +73,6 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("Идентафикатор: %s Имя: %s Фамилия: %s Телефон: %s%n", id, firstName, lastName, phone);
+        return String.format("Person ID: %s -Name: %s -Surname: %s -Phone number: %s%n", id, firstName, lastName, phone);
     }
 }

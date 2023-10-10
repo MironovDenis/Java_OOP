@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static model.User.getDataUser;
+import static model.User.prompt;
 
 public class UserView {
     private final UserController userController;
@@ -30,6 +31,7 @@ public class UserView {
                     System.out.println();
                     break;
                 case NONE:
+                    System.out.println("Some NONE command ;) ");
                     break;
                 case READ:
                     String id = prompt("Enter user id: ");
@@ -69,12 +71,15 @@ public class UserView {
 
 
 
-    private String prompt(String message) {
-        Scanner in = new Scanner(System.in);
-        System.out.print(message);
-        return in.nextLine();
-    }
+//    private String prompt(String message) {
+//        Scanner in = new Scanner(System.in);
+//        System.out.print(message);
+//        return in.nextLine();
+//    }
 
+    /*
+    Метод
+     */
 //    private User createUser() {
 //        String firstName = prompt("Имя: ");
 //        if (firstName.isEmpty()) {

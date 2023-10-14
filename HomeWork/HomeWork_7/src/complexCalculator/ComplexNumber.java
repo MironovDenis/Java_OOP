@@ -20,9 +20,9 @@ public class ComplexNumber {
     @Override
     public String toString() {
         if (imaginary < 0) {
-            return real + " - " + Math.abs(imaginary) + "i";
+            return "(" + real + " - " + Math.abs(imaginary) + "i)";
         } else {
-            return real + " + " + imaginary + "i";
+            return "(" + real + " + " + imaginary + "i)";
         }
     }
 }

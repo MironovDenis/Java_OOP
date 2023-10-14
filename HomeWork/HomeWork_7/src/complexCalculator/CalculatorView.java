@@ -14,11 +14,12 @@ public class CalculatorView {
     public void run() {
         while (true) {
             try {
+                System.out.println("Задайте значения комплесных числе А и В: ");
                 ComplexNumber numberA = new ComplexNumber(getValue("Действительная часть числа А: "), getValue("Мнимая часть числа А: "));
-                logger.info("Комплексное число А " + numberA);
+                logger.info("Комплексное число А: " + numberA);
                 System.out.println();
                 ComplexNumber numberB = new ComplexNumber(getValue("Действительная часть числа В: "), getValue("Мнимая часть числа В: "));
-                logger.info("Комплексное число В " + numberB);
+                logger.info("Комплексное число В: " + numberB);
                 System.out.println();
                 String command = prompt("\nВведите команду: +, *, / или exit ");
                 if (command.equalsIgnoreCase("exit")) {
